@@ -1,0 +1,253 @@
+GET /tmdb/tv/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /_cat/indices?
+
+GET /tmdb/tv/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Grey's Anatomy",
+            "fields": ["original_name","name", "alternative_name_RU", "alternative_name_FR", "alternative_name_DE", "alternative_name_JP", "alternative_name_CN"],
+            "type": "best_fields",
+            "fuzziness": 2,
+            "max_expansions": 5
+          }
+        }
+      ],
+      "should": [
+      {
+          "range": {
+            "number_of_seasons": {
+              "gte": 1,
+              "boost": 4
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 1000,
+              "boost": 4
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 100,
+              "boost": 3
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 10,
+              "boost": 2
+            }
+          }
+        }
+      ]
+    }
+  },
+  "highlight": {
+    "pre_tags": [
+      "<b>"
+    ],
+    "post_tags": [
+      "</b>"
+    ],
+    "fields": {
+      "name": {},
+      "original_name": {},
+      "alternative_name_*": {}
+    }
+  }
+}
+
+GET tmdb/movie/_search
+{
+  "query": {
+    "match_phrase": {
+      "id": 372345
+    }
+  }
+}
+
+GET /tmdb/movie/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Ozhivudivasathe Kali",
+            "fields": ["original_title","title", "alternative_title_RU", "alternative_title_FR", "alternative_title_DE", "alternative_title_JP", "alternative_title_CN", "alternative_title_IN"],
+            "type": "best_fields",
+            "fuzziness": 2,
+            "max_expansions": 5
+          }
+        }
+      ],
+      "should": [
+        {
+          "match_phrase": {
+            "original_language": {
+              "query": "Ozhivudivasathe Kali",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 1000,
+              "boost": 4
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 100,
+              "boost": 3
+            }
+          }
+        },
+        {
+          "range": {
+            "vote_count": {
+              "gte": 10,
+              "boost": 2
+            }
+          }
+        }
+      ]
+    }
+  },
+  "highlight": {
+    "pre_tags": [
+      "<b>"
+    ],
+    "post_tags": [
+      "</b>"
+    ],
+    "fields": {
+      "title": {},
+      "original_title": {},
+      "alternative_title_*": {}
+    }
+  }
+}
+
+GET /titles/imdb/_search
+{
+  "query" : {
+      "match": {
+        "Title": "Rang de Basanti"
+      }
+    },
+  "highlight": {
+      "pre_tags" : ["<b>"],
+      "post_tags" : ["</b>"],
+      "fields" : {
+          "Title" : {}
+      }
+    }
+}
+
+GET /titles/imdb/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "Title": {
+              "query": "Phir Hera  foof Feri",
+              "fuzziness": 1,
+              "max_expansions": 5
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "match_phrase": {
+            "Title": {
+              "query": "Phir Hera Pheri",
+              "boost": 20
+            }
+          }
+        },
+        {
+          "term": {
+            "Year": {
+              "value": 2006,
+              "boost": 10
+            }
+          }
+        },
+        {
+          "match": {
+            "Language": {
+              "query": "Hindi",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "range": {
+            "imdbVotes": {
+              "gte": 100000,
+              "boost": 3
+            }
+          }
+        },
+        {
+          "range": {
+            "imdbVotes": {
+              "gte": 10000,
+              "boost": 2
+            }
+          }
+        },
+        {
+          "range": {
+            "imdbVotes": {
+              "gte": 1000,
+              "boost": 1
+            }
+          }
+        }
+      ]
+    }
+  },
+  "highlight": {
+    "pre_tags": [
+      "<b>"
+    ],
+    "post_tags": [
+      "</b>"
+    ],
+    "fields": {
+      "Title": {}
+    }
+  }
+}
+
+
+GET /titles/imdb/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
