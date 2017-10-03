@@ -50,3 +50,4 @@ The API server can be built on any debian distro from a fresh droplet or server.
 - Need to include apostrophe in searches "Devil's Due" works for exact query but "Devils Due" fails.
 - Need to include abbrevations for numbers and symbols like "&" to be recognized as "and"
 - Add imdbid and tmdbid indexes after dumping mongo databases
+- Dump all user collections as well.

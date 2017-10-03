@@ -75,18 +75,18 @@ if args['tmdb']:
                 row = json.loads(line)
                 if args['movies']:
                     newrow = {x: row[x] for x in row if x in fields['tmdb']['movies']}
+                    newrow['release_date'] = int(newrow['release_date'][:4]) if (newrow['release_date']) else None
                     for title in newrow['alternative_titles']['titles']:
                         iso_3166_1 = title['iso_3166_1'].replace(" ", "_").lower()
                         newrow['alternative_title_' + iso_3166_1] = title['title']
-                        newrow['release_date'] = int(newrow['release_date'][:4]) if (newrow['release_date']) else None
                     del newrow['alternative_titles']
                 if args['tv']:
                     newrow = {x: row[x] for x in row if x in fields['tmdb']['tv']}
+                    newrow['last_air_date'] = int(newrow['last_air_date'][:4]) if (newrow['last_air_date']) else None
+                    newrow['first_air_date'] = int(newrow['first_air_date'][:4]) if (newrow['first_air_date']) else None
                     for title in newrow['alternative_titles']['results']:
                         iso_3166_1 = title['iso_3166_1'].replace(" ", "_").lower()
                         newrow['alternative_title_' + iso_3166_1] = title['title']
-                        newrow['last_air_date'] = int(newrow['last_air_date'][:4]) if (newrow['last_air_date']) else None
-                        newrow['first_air_date'] = int(newrow['first_air_date'][:4]) if (newrow['first_air_date']) else None
                     del newrow['alternative_titles']
                 fh3.write(json.dumps(newrow) + '\n')
                 continue
