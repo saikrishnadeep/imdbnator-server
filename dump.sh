@@ -7,8 +7,8 @@ rm -rf "$temp"
 mkdir "$temp"
 
 echo -e "\n${GREEN}Downloading dumps${NC}\n"
-wget https://nyc3.digitaloceanspaces.com/imdbnator/imdb.movies.tar.gz -P "$temp"
-wget https://nyc3.digitaloceanspaces.com/imdbnator/tmdb.movies.tar.gz -P "$temp"
+wget -O https://nyc3.digitaloceanspaces.com/imdbnator/imdb.movies.tar.gz -P "$temp"
+wget -O https://nyc3.digitaloceanspaces.com/imdbnator/tmdb.movies.tar.gz -P "$temp"
 
 echo -e "\n${GREEN}Extracting dumps${NC}\n"
 tar xvzf "$temp/imdb.movies.tar.gz" -C "$temp"
