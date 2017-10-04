@@ -54,6 +54,8 @@ mkdir /srv
 cd /srv
 git clone https://github.com/saikrishnadeep/imdbnator-api.git .
 yarn install
-PORT=80 pm2 start -f api.js
+pm2 startup
+PORT=80 REMOTE=http://www.imdbnator.com pm2 start -f api.js
+
 
 echo -e "\n${GREEN}All done!${NC}\n"
